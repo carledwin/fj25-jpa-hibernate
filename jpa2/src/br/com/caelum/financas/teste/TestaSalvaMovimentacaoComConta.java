@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import javax.persistence.EntityManager;
 
+import br.com.caelum.financas.dao.MovimentacaoDAO;
 import br.com.caelum.financas.infra.JPAUtil;
 import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Movimentacao;
@@ -14,7 +15,8 @@ public class TestaSalvaMovimentacaoComConta {
 	
 	public static void main(String[] args) {
 		EntityManager em = new JPAUtil().getEntityManager();
-	
+		MovimentacaoDAO mvDao = new MovimentacaoDAO(em);
+			
 		em.getTransaction().begin();
 		Conta conta = new Conta();
 		conta.setBanco("Banco Santander");
@@ -30,7 +32,7 @@ public class TestaSalvaMovimentacaoComConta {
 		mv.setValor(new BigDecimal("10000"));
 		mv.setTipoMovimentacao(TipoMovimentacao.SAIDA);
 		
-		em.persist(mv);
+		mvDao.adiciona(mv);
 		em.getTransaction().commit();
 		em.close();
 	}
