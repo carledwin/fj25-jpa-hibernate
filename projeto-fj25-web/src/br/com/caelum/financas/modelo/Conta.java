@@ -8,11 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
 import br.com.caelum.financas.validator.PossuiNumeroEAgencia;
 
 @PossuiNumeroEAgencia
+//@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 public class Conta {
 

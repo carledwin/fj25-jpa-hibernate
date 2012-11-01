@@ -30,6 +30,11 @@
 			<property name="hibernate.search.default.directory_provider" value="org.hibernate.search.store.FSDirectoryProvider"/>
 			<property name="hibernate.search.default.indexBase" value="/home/jpa3068/workspace/projeto-fj25-web"/>
 			<property name="hibernate.search.analyzer" value="org.apache.lucene.analysis.br.BrazilianAnalyzer"/>
+			
+			<!-- <property name="hibernate.cache.use_second_level_cache" value="true"/>
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider"/> -->
+
+			
 		</properties>
 	</persistence-unit>
 
