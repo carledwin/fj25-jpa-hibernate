@@ -7,6 +7,5 @@ public class CriaEntityManagerFactoryParaAtualizarBanco {
 
 	public static void main(String[] args) {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("controlefinancas");
-	}
-	
+	}	
 }

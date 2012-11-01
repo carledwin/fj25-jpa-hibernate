@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
 
+import br.com.caelum.financas.dao.MovimentacaoDAO;
 import br.com.caelum.financas.modelo.Movimentacao;
 
 @ManagedBean
@@ -29,7 +30,8 @@ public class BuscaTextualBean {
 	}
 
 	public void busca() {
-		System.out.println("Buscando as movimentacoes associadas as tags");
+		MovimentacaoDAO movDAO = new MovimentacaoDAO(em);
+		movimentacoes = movDAO.buscaMovimentacoesBaseadoNasTags(tags);
 	}
 
 	public List<Movimentacao> getMovimentacoes() {

@@ -35,8 +35,8 @@
 		    	<h:outputText value="Data" />
 		    	<p:calendar pattern="dd/MM/yyyy" value="#{movimentacoesBean.movimentacao.data.time}"/>
 		    	
-	        	<h:outputText value="Tags(separe por espaço)" rendered="false"/>
-		    	<h:inputText value="#{movimentacoesBean.tags}" rendered="false"/>		    			    	 
+	        	<h:outputText value="Tags(separe por espaço)" rendered="true"/>
+		    	<h:inputText value="#{movimentacoesBean.tags}" rendered="true"/>		    			    	 
 		    	<h:commandButton value="Gravar" action="#{movimentacoesBean.grava}"/>
 		    	
 		    	
@@ -88,7 +88,7 @@
         		
         		#{movimentacao.tipoMovimentacao}
         	</h:column>
-        	<h:column rendered="false">
+        	<h:column rendered="true">
         		<f:facet name="header">
         			<h:outputText value="Tags" />
         		</f:facet>        		

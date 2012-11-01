@@ -1,22 +1,33 @@
 package br.com.caelum.financas.modelo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.DecimalMin;
+
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 @Entity
+@Indexed
 public class Movimentacao {
 	@Id
 	@GeneratedValue
 	private Integer id;
+	
 	private String descricao;
 	private Calendar data;
+	
+	@DecimalMin("0.01")
 	private BigDecimal valor;
 	
 	@ManyToOne
@@ -24,6 +35,18 @@ public class Movimentacao {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacao tipoMovimentacao;
+	
+	@ManyToMany
+	@IndexedEmbedded
+	private List<Tag> tags = new ArrayList<Tag>();
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
 
 	public TipoMovimentacao getTipoMovimentacao() {
 		return tipoMovimentacao;

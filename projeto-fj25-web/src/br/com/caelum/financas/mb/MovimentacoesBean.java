@@ -4,13 +4,16 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
 
 import br.com.caelum.financas.dao.ContaDAO;
 import br.com.caelum.financas.dao.MovimentacaoDAO;
+import br.com.caelum.financas.dao.TagDAO;
 import br.com.caelum.financas.infra.JPAUtil;
 import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.Movimentacao;
+import br.com.caelum.financas.modelo.Tag;
 import br.com.caelum.financas.modelo.TipoMovimentacao;
 
 
@@ -20,27 +23,24 @@ public class MovimentacoesBean {
 	private Movimentacao movimentacao = new Movimentacao();
 	private Integer contaId;
 	private String tags;
-//	@ManagedProperty(name="em",value="#{requestScope.em}")
-//	private EntityManager em;
 	
-//	public void setEm(EntityManager em) {
-//		this.em = em;
-//	}
+	@ManagedProperty(name="em",value="#{requestScope.em}")
+	private EntityManager em;
+	
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
 	
 	public void grava() {
-		EntityManager em = new JPAUtil().getEntityManager();
 		MovimentacaoDAO dao = new MovimentacaoDAO(em);
 		ContaDAO cdao = new ContaDAO(em);
 		Conta conta = cdao.busca(contaId);
 		
-		em.getTransaction().begin();
-		
-    	movimentacao.setConta(conta);
+	   	movimentacao.setConta(conta);
+    	gravaEAssociaAsTags(em);
 		dao.adiciona(movimentacao);
 		movimentacoes = dao.lista();
-		em.getTransaction().commit();
-		em.close();
-
+	
 		limpaFormularioDoJSF();
 	}
 	
@@ -61,10 +61,8 @@ public class MovimentacoesBean {
 
 	public List<Movimentacao> getMovimentacoes() {
 		if(movimentacoes == null) {
-			EntityManager em = new JPAUtil().getEntityManager();
 			MovimentacaoDAO dao = new MovimentacaoDAO(em);
 			movimentacoes = dao.lista();
-			em.close();
 		}
 		
 		return movimentacoes;
@@ -109,5 +107,15 @@ public class MovimentacoesBean {
 
 	public TipoMovimentacao[] getTiposDeMovimentacao() {
 		return TipoMovimentacao.values();
+	}
+	
+	public void gravaEAssociaAsTags(EntityManager em) {
+		String[] nomesDasTags = this.tags.split(" ");
+		TagDAO tagDAO = new TagDAO(em);
+		
+		for (String nome : nomesDasTags) {
+			Tag tag = tagDAO.adicionaOuBuscaTagComNome(nome);
+			movimentacao.getTags().add(tag);
+		}
 	}
 }
